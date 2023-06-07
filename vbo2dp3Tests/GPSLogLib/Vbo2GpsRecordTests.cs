@@ -46,6 +46,17 @@ namespace vbo2dp3.GPSLogLib.Tests
             Assert.IsTrue(record.Date.Second == 27);
             Assert.IsTrue(record.Date.Millisecond == 100);
 
+            result = Vbo2GpsRecord.ReadVbo("2023Rd3①.vbo");
+
+            Assert.IsTrue(result.Count() == 1);
+            record = result.First();
+            Assert.IsTrue(record.Date.Year == 2023);
+            Assert.IsTrue(record.Date.Month == 4);
+            Assert.IsTrue(record.Date.Day == 30);
+            Assert.IsTrue(record.Date.Hour == 10);
+            Assert.IsTrue(record.Date.Minute == 30);
+            Assert.IsTrue(record.Date.Second == 27);
+            Assert.IsTrue(record.Date.Millisecond == 100);
 
         }
     }

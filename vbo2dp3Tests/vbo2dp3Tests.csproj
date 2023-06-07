@@ -21,6 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="2023Rd3①.vbo">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="session_20230326_141947_test.vbo">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

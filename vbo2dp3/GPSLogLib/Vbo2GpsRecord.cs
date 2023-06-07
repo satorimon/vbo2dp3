@@ -80,9 +80,14 @@ namespace vbo2dp3.GPSLogLib
 
                     var time = double.Parse(timeStr);
                     int hour = int.Parse(timeStr.Substring(0, 2))  + 9;
+                    if(hour > 23)
+                    {
+                        hour = hour % 24;
+                    }
                     int min = int.Parse(timeStr.Substring(2, 2));
                     int sec = int.Parse(timeStr.Substring(4, 2));
                     int millisec = int.Parse(timeStr.Substring(7, 2))*10;
+                    
                     record.Date = new DateTime(year, month, day, hour, min, sec, millisec);
 
 
