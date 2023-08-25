@@ -23,8 +23,22 @@ namespace vbo2dp3
                     var filename = Path.GetFileNameWithoutExtension(inputPath);
                     var outputPath = Path.GetDirectoryName(inputPath) + Path.DirectorySeparatorChar
                         + filename + ".dp3";
+                    IEnumerable<GpsRecord> records;
 
-                    var records = Vbo2GpsRecord.ReadVbo(inputPath);
+                    var ext = Path.GetExtension(inputPath);
+                    if ( ext == ".vbo" || ext == ".VBO")
+                    {
+                        records = Vbo2GpsRecord.Read(inputPath);
+                    }
+                    else if(ext == ".csv" || ext == ".CSV")
+                    {
+                        records = RaceChronoCsv2GpsRecords.Read(inputPath);
+                    }
+                    else
+                    {
+                        Console.WriteLine("拡張子は.vboまたは.csvのファイルのみ受け付けます。");
+                        return;
+                    }
                     var bytes = dp3Converter.Vbo2dp3(records);
                     using (var stream = File.Open(outputPath, FileMode.Create))
                     using (var writer = new BinaryWriter(stream))
