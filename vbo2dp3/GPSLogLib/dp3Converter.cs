@@ -33,7 +33,19 @@ namespace vbo2dp3.GPSLogLib
             rtnList.AddRange(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
             rtnList.AddRange(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
 
-            foreach(var rec in records)
+            int lastTime = 0;
+            var startindex = records.Select((item, index) => new { Index = index, Value = item })
+                .Where(x => x.Value.Speed > 20.0)
+               .Select(x => x.Index)
+               .DefaultIfEmpty(-1)
+               .First();
+            startindex = records.Take(startindex + 1).Select((item, index) => new { Index = index, Value = item })
+               .Where(x => x.Value.Speed < 5.0)
+               .Select(x => x.Index)
+               .DefaultIfEmpty(-1)
+               .Last();
+            var skipRecords = records.Skip(startindex + 1).ToArray();
+            foreach (var rec in skipRecords)
             {
                 
                 int time = rec.Date.Hour * 100000 + rec.Date.Minute * 1000 + rec.Date.Second * 10 + (int)(rec.Date.Millisecond / 100);
@@ -62,7 +74,11 @@ namespace vbo2dp3.GPSLogLib
                     rtnList.AddRange(array2);
                 };
 
-
+                if(time == lastTime)
+                {
+                    continue;
+                }
+                lastTime = time;
                 writeBytes4(time);
                 writeBytes4(longitude);
                 writeBytes4(latitude);

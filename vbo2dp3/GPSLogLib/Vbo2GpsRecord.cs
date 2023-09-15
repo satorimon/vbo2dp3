@@ -10,14 +10,9 @@ namespace vbo2dp3.GPSLogLib
     public static class Vbo2GpsRecord
     {
 
-
         public static IEnumerable<GpsRecord> Read(string path)
         {
-            if(!File.Exists(path)) { throw new FileNotFoundException();  }
-            if (Path.GetExtension(path) != ".vbo")
-            {
-                throw new ArgumentException("Invalid file.");
-            }
+            FileCheckUtil.CheckExistsAndExtension(path, ".vbo");
             var year = DateTime.Today.Year;
             var month = DateTime.Today.Month;
             var day = DateTime.Today.Day;

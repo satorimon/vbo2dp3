@@ -12,21 +12,8 @@ namespace vbo2dp3.GPSLogLib
 
         public static IEnumerable<GpsRecord> Read(string path)
         {
-            if (!File.Exists(path)) { throw new FileNotFoundException(); }
-            if (Path.GetExtension(path) != ".csv")
-            {
-                throw new ArgumentException("Invalid file.");
-            }
-            var year = DateTime.Today.Year;
-            var month = DateTime.Today.Month;
-            var day = DateTime.Today.Day;
-            var reg = new Regex("^session_\\d{8}_\\d{6}.*");
-            if (reg.Match(path).Success)
-            {
-                year = int.Parse(path.Substring(8, 4));
-                month = int.Parse(path.Substring(12, 2));
-                day = int.Parse(path.Substring(14, 2));
-            }
+            FileCheckUtil.CheckExistsAndExtension(path, ".csv");
+
 
             var rtnList = new List<GpsRecord>();
 
@@ -59,7 +46,7 @@ namespace vbo2dp3.GPSLogLib
 
                 var vIndex = f("Speed (m/s)");
 
-
+                DateTime lastDate = new DateTime();
 
                 do
                 {
@@ -75,7 +62,14 @@ namespace vbo2dp3.GPSLogLib
                     var time_ms = double.Parse(lineSplited[timeIndex]);
 
                     var dto = DateTimeOffset.FromUnixTimeMilliseconds((long)(time_ms * 1000)).LocalDateTime;
-                    record.Date = new DateTime(dto.Year, dto.Month, dto.Day, dto.Hour, dto.Minute, dto.Second, dto.Millisecond);
+                    var tempDate = new DateTime(dto.Year, dto.Month, dto.Day, dto.Hour, dto.Minute, dto.Second, dto.Millisecond);
+                    if (tempDate - lastDate == TimeSpan.Zero)
+                    {
+                        continue;
+                    }
+
+                    record.Date = tempDate;
+                    lastDate = tempDate;
 
 
                     var latStr = lineSplited[latIndex];

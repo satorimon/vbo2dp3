@@ -30,6 +30,9 @@
     <None Update="session_20230430_095050_test.vbo">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="session_20230806_132338_20230806_地区戦野沢_resume3_v2.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
