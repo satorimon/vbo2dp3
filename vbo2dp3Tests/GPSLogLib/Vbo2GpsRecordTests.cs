@@ -77,7 +77,18 @@ namespace vbo2dp3.GPSLogLib.Tests
             Assert.IsTrue(record.Date.Second == 38);
             Assert.IsTrue(record.Date.Millisecond == 750);
 
+            result = RaceChronoCsv2GpsRecords.Read("session_20230918_0946_0916タカタ_v2.csv");
 
+            Assert.IsTrue(result is not null);
+            Assert.IsTrue(result.Any());
+            record = result.First();
+            Assert.IsTrue(record.Date.Year == 2023);
+            Assert.IsTrue(record.Date.Month == 9);
+            Assert.IsTrue(record.Date.Day == 18);
+            Assert.IsTrue(record.Date.Hour == 9);
+            Assert.IsTrue(record.Date.Minute == 58);
+            Assert.IsTrue(record.Date.Second == 53);
+            Assert.IsTrue(record.Date.Millisecond == 983);
         }
     }
 }

@@ -48,6 +48,8 @@ namespace vbo2dp3.GPSLogLib
 
                 DateTime lastDate = new DateTime();
 
+                double lastLatitude = 0.0, lastLongitude = 0.0, lastSpeed = 0.0;
+
                 do
                 {
                     line = sr.ReadLine() ?? string.Empty;
@@ -72,19 +74,26 @@ namespace vbo2dp3.GPSLogLib
                     lastDate = tempDate;
 
 
-                    var latStr = lineSplited[latIndex];
-                    var lat = double.Parse(latStr);
-                    record.Latitude = lat;
+                    Action<int, double, double> setAction = (index, value, lastValue) =>
+                    {
+                        var tempStr = lineSplited[index];
+                        double temp = 0.0;
+                        if (double.TryParse(tempStr, out temp))
+                        {
+                            value = temp;
+                            lastValue = temp;
+                        }
+                        else
+                        {
+                            value = lastValue;
+                        }
+                    };
 
+                    setAction(latIndex, record.Latitude, lastLatitude);
+                    setAction(longIndex, record.Longitude, lastLongitude);
+                    setAction(vIndex, record.Speed, lastSpeed);
 
-                    var longStr = lineSplited[longIndex];
-                    var longitude = double.Parse(longStr);
-                    record.Longitude = longitude;
-
-
-                    var vStr = lineSplited[vIndex];
-                    var v = double.Parse(vStr);
-                    record.Speed = v * 3600.0 / 1000.0;
+                    record.Speed = record.Speed * 3600.0 / 1000.0;
 
                     rtnList.Add(record);
                 } while (!sr.EndOfStream);

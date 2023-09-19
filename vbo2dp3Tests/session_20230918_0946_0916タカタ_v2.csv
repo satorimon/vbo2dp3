@@ -1,0 +1,21 @@
+This file is created using RaceChrono v8.0.8 ( http://racechrono.com/ ).
+Format,2,"Format 1 = static columns","Format 2 = new format with dynamic columns; only channel header string is fixed, number of columns and channels' column numbers are variable."
+Session title,"0916タカタ"
+Session type,Lap timing
+Track name,"0916タカタ"
+Driver name,
+Export scope,Whole session
+Created,18/09/2023,00:46
+Note,
+
+Time (s),Session fragment #,Lap #,Trap name,X-position (m),Y-position (m),Distance (m),Speed (m/s),Altitude (m),Bearing (deg),Device update rate (Hz),Elapsed time (s),Latitude (deg),Longitude (deg),Satellites (sats),Fix type,Coordinate precision (DOP),Altitude precision (DOP),Speed (m/s) *calc,Lateral acceleration (G) *calc,Longitudinal acceleration (G) *calc,Device update rate (Hz) *calc,Lean angle (deg) *calc,Combined acceleration (G) *calc,Speed (m/s) *obd,RPM (rpm) *obd,Throttle position (%) *obd,Coolant temperature (.C) *obd,Intake temperature (.C) *obd,Accelerator position (%) *obd,Accelerator position E (%) *obd,X acceleration (G) *acc,Y acceleration (G) *acc,Z acceleration (G) *acc,Device update rate (Hz) *acc,X rate of rotation (deg/s) *gyro,Y rate of rotation (deg/s) *gyro,Z rate of rotation (deg/s) *gyro,Device update rate (Hz) *gyro
+1694998733.983,0,,,8.071,-2.039,5494.805,0.000,284.800,54.670,5.0,706.383,34.7476217,132.7208117,10,2,0.82,1.26,0.000,,,20.0,,,0.000,714,13.3,98.0,51.0,14.9,7.5,,,,50.8,,,,50.8
+1694998733.984,0,,,8.071,-2.039,5494.805,0.000,284.800,54.670,5.0,706.384,34.7476217,132.7208117,10,2,0.82,1.26,0.000,,,20.0,,,0.000,714,13.3,98.0,51.0,14.9,7.5,,,,50.8,,,,50.8
+1694998734.000,0,,,8.071,-2.039,5494.805,0.000,284.800,54.670,5.0,706.400,34.7476217,132.7208117,10,2,0.82,1.26,0.000,,,20.0,,,0.000,714,13.3,98.0,51.0,14.9,7.5,,,,50.8,-60.045,-28.994,10.209,50.8
+1694998734.000,0,,,8.071,-2.039,5494.805,,,,5.0,706.400,34.7476217,132.7208117,,,,,0.000,,,20.0,,,0.000,714,13.3,98.0,51.0,14.9,7.5,,,,50.8,-60.045,-28.994,10.209,50.8
+1694998734.050,0,,,8.071,-2.039,5494.805,,,,5.0,706.400,34.7476217,132.7208117,,,,,0.000,,,20.0,,,0.000,714,13.3,98.0,51.0,14.9,7.5,,,,50.8,-60.045,-28.994,10.209,50.8
+1694998734.100,0,,,8.071,-2.039,5494.805,,,,5.0,706.400,34.7476217,132.7208117,,,,,0.000,,,20.0,,,0.000,714,13.3,98.0,51.0,14.9,7.5,,,,50.8,-60.045,-28.994,10.209,50.8
+1694998734.150,0,,,8.071,-2.039,5494.805,,,,5.0,706.400,34.7476217,132.7208117,,,,,0.000,,,20.0,,,0.000,714,13.3,98.0,51.0,14.9,7.5,,,,50.8,-60.045,-28.994,10.209,50.8
+1695000305.601,1,,,7.613,-2.224,0.001,0.005,286.900,248.320,5.0,0.001,34.7476200,132.7208067,10,2,0.83,0.76,0.005,,,20.0,,0.497,,,,,,,,0.431,-0.253,0.883,52.0,-0.127,0.029,-0.089,52.0
+1695000305.603,1,,,7.612,-2.224,0.002,0.005,286.898,248.320,5.0,0.003,34.7476200,132.7208066,10,2,0.83,0.77,0.005,,,20.0,,0.497,,,,,,,,0.430,-0.254,0.883,52.0,-0.092,0.029,-0.089,52.0
+1695000305.615,1,,,7.602,-2.224,0.011,0.006,286.893,248.320,5.0,0.015,34.7476200,132.7208065,10,2,0.83,0.79,0.006,,,20.0,,0.497,,,,,,,,0.430,-0.254,0.883,51.9,-0.113,0.008,-0.089,52.0
