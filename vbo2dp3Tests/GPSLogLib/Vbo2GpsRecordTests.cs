@@ -89,6 +89,11 @@ namespace vbo2dp3.GPSLogLib.Tests
             Assert.IsTrue(record.Date.Minute == 58);
             Assert.IsTrue(record.Date.Second == 53);
             Assert.IsTrue(record.Date.Millisecond == 983);
+
+            Assert.IsTrue(record.Longitude == 132.7208117);
+            Assert.IsTrue(record.Latitude == 34.7476217);
+            Assert.IsTrue(record.Speed == 359.99639999999994);
+
         }
     }
 }

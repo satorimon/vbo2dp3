@@ -74,8 +74,9 @@ namespace vbo2dp3.GPSLogLib
                     lastDate = tempDate;
 
 
-                    Action<int, double, double> setAction = (index, value, lastValue) =>
+                    Func<int,Tuple< double, double>> setFunc = (index) =>
                     {
+                        double value = 0.0, lastValue = 0.0;
                         var tempStr = lineSplited[index];
                         double temp = 0.0;
                         if (double.TryParse(tempStr, out temp))
@@ -87,11 +88,13 @@ namespace vbo2dp3.GPSLogLib
                         {
                             value = lastValue;
                         }
+
+                        return new Tuple<double, double>(value, lastValue );
                     };
 
-                    setAction(latIndex, record.Latitude, lastLatitude);
-                    setAction(longIndex, record.Longitude, lastLongitude);
-                    setAction(vIndex, record.Speed, lastSpeed);
+                    (record.Latitude, lastLatitude) = setFunc(latIndex);
+                    (record.Longitude, lastLongitude) = setFunc(longIndex);
+                    (record.Speed, lastSpeed) = setFunc(vIndex);
 
                     record.Speed = record.Speed * 3600.0 / 1000.0;
 
