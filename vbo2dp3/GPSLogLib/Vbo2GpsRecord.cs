@@ -48,16 +48,14 @@ namespace vbo2dp3.GPSLogLib
                 };
 
                 var timeIndex = f("time");
-
                 var latIndex = f("lat");
-
                 var longIndex = f("long");
+                var vIndex = f("velocity");
+                var heightIndex = f("height");
 
-                var vIndex = splitNames.Select((item, index) => (item, index))
-                    .Where(pare => string.Compare(pare.item, "velocity", true) == 0)
-                    .FirstOrDefault().index;
 
                 while (sr.ReadLine()?.StartsWith("[data]") == false) ;
+
 
                 do
                 {
@@ -84,21 +82,10 @@ namespace vbo2dp3.GPSLogLib
                     int millisec = int.Parse(timeStr.Substring(7, 2))*10;
                     
                     record.Date = new DateTime(year, month, day, hour, min, sec, millisec);
-
-
-                    var latStr = lineSplited[latIndex];
-                    var lat = double.Parse(latStr);
-                    record.Latitude = lat / 60.0;
-
-
-                    var longStr = lineSplited[longIndex];
-                    var longitude = double.Parse(longStr);
-                    record.Longitude = longitude / -60.0;
-
-
-                    var vStr = lineSplited[vIndex];
-                    var v = double.Parse(vStr);
-                    record.Speed = v;
+                    record.Latitude = double.Parse(lineSplited[latIndex]) / 60.0;
+                    record.Longitude = double.Parse(lineSplited[longIndex]) / -60.0;
+                    record.Speed = double.Parse(lineSplited[vIndex]);
+                    record.Height = double.Parse(lineSplited[heightIndex]);
 
                     rtnList.Add(record);
                 } while (!sr.EndOfStream);

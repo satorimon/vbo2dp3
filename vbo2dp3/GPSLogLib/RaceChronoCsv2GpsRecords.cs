@@ -45,10 +45,11 @@ namespace vbo2dp3.GPSLogLib
                 var longIndex = f("Longitude (deg)");
 
                 var vIndex = f("Speed (m/s)");
+                var heightIndex = f("Altitude (m)");
 
                 DateTime lastDate = new DateTime();
 
-                double lastLatitude = 0.0, lastLongitude = 0.0, lastSpeed = 0.0;
+                double lastLatitude = 0.0, lastLongitude = 0.0, lastSpeed = 0.0, lastHeight = 0.0;
 
                 do
                 {
@@ -95,6 +96,8 @@ namespace vbo2dp3.GPSLogLib
                     (record.Latitude, lastLatitude) = setFunc(latIndex);
                     (record.Longitude, lastLongitude) = setFunc(longIndex);
                     (record.Speed, lastSpeed) = setFunc(vIndex);
+                    (record.Height, lastHeight) = setFunc(heightIndex);
+
 
                     record.Speed = record.Speed * 3600.0 / 1000.0;
 

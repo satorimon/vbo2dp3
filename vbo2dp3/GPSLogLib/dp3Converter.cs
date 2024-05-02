@@ -8,6 +8,50 @@ namespace vbo2dp3.GPSLogLib
 {
     public static class dp3Converter
     {
+        public static IEnumerable<GpsRecord> ExtractSequences(IEnumerable<GpsRecord> records)
+        {
+            var array = records.ToArray();
+            var sequences = new List<GpsRecord>();
+
+            int startIndex = -1;
+            DateTime stopDate = DateTime.MinValue;
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i].Speed > 20 && startIndex == -1)
+                {
+                    startIndex = i;
+
+                    // 5を超えたところから戻る
+                    while (startIndex > 0 && array[startIndex].Speed > 5.0)
+                    {
+                        startIndex--;
+                    }
+                }
+                else if (startIndex > 0 && array[i].Speed < 1.0 && stopDate == DateTime.MinValue)
+                {
+                    stopDate = array[i].Date;
+                }
+                else if (startIndex > 0 && array[i].Speed < 1.0)
+                {
+                    var elapsed = array[i].Date - stopDate;
+                    if (elapsed.TotalSeconds > 10)
+                    {
+                        sequences.AddRange(array.Skip(startIndex + 1).Take(i - startIndex - 1));
+                        startIndex = -1;
+                        stopDate = DateTime.MinValue;
+                    }
+                }
+            }
+
+            if (startIndex != -1)
+            {
+                sequences.AddRange(array.Skip(startIndex));
+            }
+
+            return sequences;
+        }
+
         public static IEnumerable<byte> Vbo2dp3(IEnumerable<GpsRecord> records)
         {
             var rtnList = new List<byte>();
@@ -34,17 +78,8 @@ namespace vbo2dp3.GPSLogLib
             rtnList.AddRange(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
 
             int lastTime = 0;
-            var startindex = records.Select((item, index) => new { Index = index, Value = item })
-                .Where(x => x.Value.Speed > 20.0)
-               .Select(x => x.Index)
-               .DefaultIfEmpty(-1)
-               .First();
-            startindex = records.Take(startindex + 1).Select((item, index) => new { Index = index, Value = item })
-               .Where(x => x.Value.Speed < 5.0)
-               .Select(x => x.Index)
-               .DefaultIfEmpty(-1)
-               .Last();
-            var skipRecords = records.Skip(startindex + 1).ToArray();
+
+            var skipRecords = ExtractSequences(records).ToArray();
             foreach (var rec in skipRecords)
             {
                 
@@ -52,6 +87,7 @@ namespace vbo2dp3.GPSLogLib
                 int longitude = (int)(rec.Longitude * 460800.0);
                 int latitude = (int)(rec.Latitude * 460800.0);
                 int speed = (int)(rec.Speed * 10.0);
+                int height = (int)(rec.Height * 10.0);
 
                 Action<int> writeBytes4 = (data) =>
                 {
@@ -74,7 +110,7 @@ namespace vbo2dp3.GPSLogLib
                     rtnList.AddRange(array2);
                 };
 
-                if(time == lastTime)
+                if(time < lastTime + 2)
                 {
                     continue;
                 }
@@ -83,7 +119,7 @@ namespace vbo2dp3.GPSLogLib
                 writeBytes4(longitude);
                 writeBytes4(latitude);
                 writeBytes2(speed);
-                writeBytes2(0);
+                writeBytes2(height);
                 
 
 

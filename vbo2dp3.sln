@@ -3,9 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vbo2dp3", "vbo2dp3\vbo2dp3.csproj", "{9C051BCE-8055-4E6F-9F36-A26081C185F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vbo2dp3", "vbo2dp3\vbo2dp3.csproj", "{9C051BCE-8055-4E6F-9F36-A26081C185F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vbo2dp3Tests", "vbo2dp3Tests\vbo2dp3Tests.csproj", "{8EACFCC0-4D36-4880-B7C4-21415C50E9BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vbo2dp3Tests", "vbo2dp3Tests\vbo2dp3Tests.csproj", "{8EACFCC0-4D36-4880-B7C4-21415C50E9BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dp3Alignment", "dp3Alignment\dp3Alignment.csproj", "{22BA4D69-135D-441B-A6DD-C1935743BC06}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9C051BCE-8055-4E6F-9F36-A26081C185F7} = {9C051BCE-8055-4E6F-9F36-A26081C185F7}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dp3AlignmentTests", "dp3AlignmentTests\dp3AlignmentTests.csproj", "{C2C2F433-F417-4694-A3A7-65FFE93D06EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dp3Concatenator", "dp3Concatenator\dp3Concatenator.csproj", "{6AC06331-CB99-4B56-A258-B99338439779}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +30,18 @@ Global
 		{8EACFCC0-4D36-4880-B7C4-21415C50E9BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EACFCC0-4D36-4880-B7C4-21415C50E9BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EACFCC0-4D36-4880-B7C4-21415C50E9BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22BA4D69-135D-441B-A6DD-C1935743BC06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22BA4D69-135D-441B-A6DD-C1935743BC06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22BA4D69-135D-441B-A6DD-C1935743BC06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22BA4D69-135D-441B-A6DD-C1935743BC06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2C2F433-F417-4694-A3A7-65FFE93D06EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2C2F433-F417-4694-A3A7-65FFE93D06EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2C2F433-F417-4694-A3A7-65FFE93D06EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2C2F433-F417-4694-A3A7-65FFE93D06EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AC06331-CB99-4B56-A258-B99338439779}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AC06331-CB99-4B56-A258-B99338439779}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AC06331-CB99-4B56-A258-B99338439779}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AC06331-CB99-4B56-A258-B99338439779}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

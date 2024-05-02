@@ -26,5 +26,10 @@ namespace vbo2dp3.GPSLogLib
         /// </summary>
         public double Latitude { get; set; }
 
+        /// <summary>
+        /// 標高[m]
+        /// </summary>
+        public double Height { get; set; }
+
     }
 }
