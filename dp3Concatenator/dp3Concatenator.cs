@@ -31,27 +31,20 @@ namespace dp3Concatenator
         }
         public static void DoConcatenator(IEnumerable<string> paths)
         {
-            var concateFiles = paths.Skip(1).ToArray();
-            var concateBytes = new List<byte>();
-            foreach (string path in concateFiles)
+            var gpsRecords = new List<IEnumerable<GpsRecord>>();
+            foreach(var path in paths)
             {
-                FileCheckUtil.CheckExistsAndExtension(path, ".dp3");
-
-
-
-                using (var fs = new FileStream(path, FileMode.Open))
-                using (var reader = new BinaryReader(fs))
-                {
-                    fs.Seek(0x100, SeekOrigin.Begin);
-                    concateBytes.AddRange(reader.ReadBytes((int)(fs.Length - 0x100)));
-
-                }
+                gpsRecords.Add(dp3Reader.Read(path));
             }
+            gpsRecords = gpsRecords.OrderBy(x => x.First().Date).ToList();
+            var concatRecords = new List<GpsRecord>();
+            foreach(var gpsRecord in gpsRecords)
+            {
+                concatRecords.AddRange(gpsRecord);
+            }
+            var concateBytes = dp3Converter.GpsRecord2dp3(concatRecords);
 
-            byte[] data = File.ReadAllBytes(paths.First());
-            byte[] combinedArray = data.Concat(concateBytes).ToArray();
-
-            File.WriteAllBytes(AddConcatToFileName(paths.First()), combinedArray);
+            File.WriteAllBytes(AddConcatToFileName(paths.First()), concateBytes.ToArray());
 
         }
     }

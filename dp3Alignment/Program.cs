@@ -1,16 +1,36 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 
-using dp3Alignment;
 
 try
 {
-    if (args.Length < 1)
+    Console.WriteLine("複数のLAP+の1LAPデータの開始位置を揃えます。");
+    string[] filepathes;
+    if(args.Length > 0)
     {
-        Console.WriteLine("引数が有りません。処理を終了します。");
+        filepathes = args;
+    }
+    else 
+    {
+        Console.Write("処理するフォルダのパスを入力して下さい: ");
+        var line = Console.ReadLine();
+        if(line != null && Directory.Exists(line))
+        {
+            filepathes = Directory.GetFiles(line,"*.dp3");
+        }
+        else
+        {
+            Console.WriteLine("入力が不正です。処理を終了します。");
+            return;
+        }
+    }
+
+    if (filepathes.Length < 1)
+    {
+        Console.WriteLine("処理するファイルが有りません。処理を終了します。");
         return;
     }
-    dp3Alignment.dp3Alignment.DoAlignment(args);
+    dp3Alignment.dp3Alignment.DoAlignment(filepathes);
 }
 catch (Exception ex)
 {

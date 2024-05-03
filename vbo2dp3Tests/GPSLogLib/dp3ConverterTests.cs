@@ -61,7 +61,7 @@ namespace vbo2dp3.GPSLogLib.Tests
                 Speed = 20.1,
             }
             );
-            var bytes = dp3Converter.Vbo2dp3(records);
+            var bytes = dp3Converter.GpsRecord2dp3(records);
 
             //Header read
             //var headerBytes = new byte[0x100];

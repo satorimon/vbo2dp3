@@ -52,7 +52,7 @@ namespace vbo2dp3.GPSLogLib
             return sequences;
         }
 
-        public static IEnumerable<byte> Vbo2dp3(IEnumerable<GpsRecord> records)
+        public static IEnumerable<byte> GpsRecord2dp3(IEnumerable<GpsRecord> records)
         {
             var rtnList = new List<byte>();
             //MEMO : Header write

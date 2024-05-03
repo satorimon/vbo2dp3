@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,15 +21,12 @@ namespace dp3Alignment
             }
 
             // パスからファイル名を取得
-            string fileName = Path.GetFileNameWithoutExtension(path);
-            string extension = Path.GetExtension(path);
-
-            // 新しいファイル名を作成
-            string newFileName = $"{fileName}_offset{extension}";
+            string fileName = Path.GetFileName(path);
 
             // 新しいパスを構築して返す
-            string directory = Path.GetDirectoryName(path)!;
-            return Path.Combine(directory, newFileName);
+            string directory = Path.Combine(Path.GetDirectoryName(path) ?? string.Empty,"offset")!;
+
+            return Path.Combine(directory, fileName);
         }
 
         public static void DoAlignment(IEnumerable<string> paths)
@@ -64,14 +62,19 @@ namespace dp3Alignment
                     x.Height += offsetHeight;
                 }
 
-                var bytes = dp3Converter.Vbo2dp3(dp3s[i]);
-                using (var stream = File.Open(AddOffsetToFileName(paths.ElementAt(i)), FileMode.Create))
+                var bytes = dp3Converter.GpsRecord2dp3(dp3s[i]);
+                var filepath = AddOffsetToFileName(paths.ElementAt(i));
+                var directory = Path.GetDirectoryName(filepath);
+                if (directory != null && !Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+                using (var stream = File.Open(filepath, FileMode.Create))
                 using (var writer = new BinaryWriter(stream))
                 {
                     writer.Write(bytes.ToArray());
                     writer.Flush();
                     writer.Close();
-
                 }
             }
 
