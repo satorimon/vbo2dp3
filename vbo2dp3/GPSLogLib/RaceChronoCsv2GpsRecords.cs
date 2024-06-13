@@ -53,55 +53,69 @@ namespace vbo2dp3.GPSLogLib
 
                 do
                 {
-                    line = sr.ReadLine() ?? string.Empty;
-                    if (string.IsNullOrEmpty(line))
+
+                        line = sr.ReadLine() ?? string.Empty;
+                        if (string.IsNullOrEmpty(line))
+                        {
+                            continue;
+                        }
+                        var lineSplited = line.Split(",", StringSplitOptions.None);
+
+                        var record = new GpsRecord();
+                    try
                     {
+                        var time_ms = double.Parse(lineSplited[timeIndex]);
+
+                        var dto = DateTimeOffset.FromUnixTimeMilliseconds((long)(time_ms * 1000)).LocalDateTime;
+                        var tempDate = new DateTime(dto.Year, dto.Month, dto.Day, dto.Hour, dto.Minute, dto.Second, dto.Millisecond);
+                        if (tempDate - lastDate == TimeSpan.Zero)
+                        {
+                            continue;
+                        }
+                        record.Date = tempDate;
+                        lastDate = tempDate;
+                    }
+                    catch(Exception e) when (e is ArgumentOutOfRangeException 
+                    || e is ArgumentNullException
+                    || e is FormatException
+                    || e is OverflowException)
+                    {
+                        Console.Write("GPSレコードの変換に失敗しました : ");
+                        Console.WriteLine(e);
+
                         continue;
                     }
-                    var lineSplited = line.Split(",", StringSplitOptions.None);
-
-                    var record = new GpsRecord();
-
-                    var time_ms = double.Parse(lineSplited[timeIndex]);
-
-                    var dto = DateTimeOffset.FromUnixTimeMilliseconds((long)(time_ms * 1000)).LocalDateTime;
-                    var tempDate = new DateTime(dto.Year, dto.Month, dto.Day, dto.Hour, dto.Minute, dto.Second, dto.Millisecond);
-                    if (tempDate - lastDate == TimeSpan.Zero)
-                    {
-                        continue;
-                    }
-
-                    record.Date = tempDate;
-                    lastDate = tempDate;
 
 
-                    Func<int,Tuple< double, double>> setFunc = (index) =>
-                    {
-                        double value = 0.0, lastValue = 0.0;
-                        var tempStr = lineSplited[index];
-                        double temp = 0.0;
-                        if (double.TryParse(tempStr, out temp))
+
+                        Func<int, Tuple<double, double>> setFunc = (index) =>
                         {
-                            value = temp;
-                            lastValue = temp;
-                        }
-                        else
-                        {
-                            value = lastValue;
-                        }
+                            double value = 0.0, lastValue = 0.0;
+                            var tempStr = lineSplited[index];
+                            double temp = 0.0;
+                            if (double.TryParse(tempStr, out temp))
+                            {
+                                value = temp;
+                                lastValue = temp;
+                            }
+                            else
+                            {
+                                value = lastValue;
+                            }
 
-                        return new Tuple<double, double>(value, lastValue );
-                    };
+                            return new Tuple<double, double>(value, lastValue);
+                        };
 
-                    (record.Latitude, lastLatitude) = setFunc(latIndex);
-                    (record.Longitude, lastLongitude) = setFunc(longIndex);
-                    (record.Speed, lastSpeed) = setFunc(vIndex);
-                    (record.Height, lastHeight) = setFunc(heightIndex);
+                        (record.Latitude, lastLatitude) = setFunc(latIndex);
+                        (record.Longitude, lastLongitude) = setFunc(longIndex);
+                        (record.Speed, lastSpeed) = setFunc(vIndex);
+                        (record.Height, lastHeight) = setFunc(heightIndex);
 
 
-                    record.Speed = record.Speed * 3600.0 / 1000.0;
+                        record.Speed = record.Speed * 3600.0 / 1000.0;
 
-                    rtnList.Add(record);
+                        rtnList.Add(record);
+ 
                 } while (!sr.EndOfStream);
                 return rtnList;
 
